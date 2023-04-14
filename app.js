@@ -1,18 +1,30 @@
-const express = require("express")
-const ejs = require("ejs")
+const express = require("express");
+const ejs = require("ejs");
+const path = require("path");
+const mongoose = require("mongoose");
+const Blog = require("./models/Blog");
 
 const port = 3000
 const app = express()
 
 app.set("view engine", "ejs")
+
+// connect DB
+mongoose.connect("mongodb://127.0.0.1:27017/cleanblog-test-db", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+// Middlewares
 app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-const path = require("path")
-
-
-app.get("/", (req, res) => {
-    res.render("index")
-})
+// Routes
+app.get("/", async (req, res) => {
+    const blogs = await Blog.find({})
+    res.render("index", { blogs })
+});
 
 app.get("/about", (req, res) => {
     res.render("about")
@@ -22,8 +34,14 @@ app.get("/add_post", (req, res) => {
     res.render("add_post")
 })
 
-app.get("post", (req, res) => {
+app.get("/post", (req, res) => {
     res.render("post")
+})
+
+// create element for DB
+app.post("/blogs", async (req, res) => {
+    await Blog.create(req.body)
+    res.redirect("/")
 })
 
 app.listen(port, () => {
