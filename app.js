@@ -38,6 +38,13 @@ app.get("/post", (req, res) => {
     res.render("post")
 })
 
+app.get("/blogs/:id", async (req, res) => {
+    const blog = await Blog.findById(req.params.id)
+    res.render("post", {
+        blog
+    })
+})
+
 // create element for DB
 app.post("/blogs", async (req, res) => {
     await Blog.create(req.body)
