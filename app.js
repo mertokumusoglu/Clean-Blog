@@ -7,7 +7,6 @@ const methodOverride = require('method-override');
 const blogController = require("./controllers/blogControllers");
 const pageController = require("./controllers/pageControllers");
 
-const port = 3000
 const app = express()
 
 app.set("view engine", "ejs")
@@ -40,6 +39,7 @@ app.get("/blogs/edit/:id", pageController.getEditPage)
 app.put("/blogs/:id", blogController.updateBlog)
 app.delete("/blogs/:id", blogController.deleteBlog)
 
+const port = 3000
 app.listen(port, () => {
     console.log("sunucu baslatildi")
 })
