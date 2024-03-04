@@ -12,7 +12,7 @@ const app = express()
 app.set("view engine", "ejs")
 
 // connect DB
-mongoose.connect("mongodb://127.0.0.1:27017/cleanblog-test-db", {
+mongoose.connect("/*dbURL*/", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
